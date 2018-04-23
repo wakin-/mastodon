@@ -40,6 +40,7 @@ class InitialStateSerializer < ActiveModel::Serializer
       store[:me]                = object.current_account.id.to_s
       store[:default_privacy]   = object.current_account.user.setting_default_privacy
       store[:default_sensitive] = object.current_account.user.setting_default_sensitive
+      store[:ltl_visibility]    = object.current_account.user.ltl_visibility
     end
 
     store[:text] = object.text if object.text

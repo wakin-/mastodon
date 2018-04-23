@@ -27,6 +27,7 @@ const messages = defineMessages({
 const mapStateToProps = state => ({
   columns: state.getIn(['settings', 'columns']),
   showSearch: state.getIn(['search', 'submitted']) && !state.getIn(['search', 'hidden']),
+  ltl_visibility: state.getIn(['compose', 'ltl_visibility']),
 });
 
 @connect(mapStateToProps)
@@ -39,6 +40,7 @@ export default class Compose extends React.PureComponent {
     multiColumn: PropTypes.bool,
     showSearch: PropTypes.bool,
     intl: PropTypes.object.isRequired,
+    ltl_visibility: PropTypes.bool.isRequired,
   };
 
   componentDidMount () {
@@ -58,7 +60,7 @@ export default class Compose extends React.PureComponent {
   }
 
   render () {
-    const { multiColumn, showSearch, intl } = this.props;
+    const { multiColumn, showSearch, intl, ltl_visibility } = this.props;
 
     let header = '';
 
@@ -73,7 +75,7 @@ export default class Compose extends React.PureComponent {
           {!columns.some(column => column.get('id') === 'NOTIFICATIONS') && (
             <Link to='/notifications' className='drawer__tab' title={intl.formatMessage(messages.notifications)} aria-label={intl.formatMessage(messages.notifications)}><i role='img' className='fa fa-fw fa-bell' /></Link>
           )}
-          {!columns.some(column => column.get('id') === 'COMMUNITY') && (
+          {!columns.some(column => column.get('id') === 'COMMUNITY') && ltl_visibility && (
             <Link to='/timelines/public/local' className='drawer__tab' title={intl.formatMessage(messages.community)} aria-label={intl.formatMessage(messages.community)}><i role='img' className='fa fa-fw fa-users' /></Link>
           )}
           {!columns.some(column => column.get('id') === 'PUBLIC') && (

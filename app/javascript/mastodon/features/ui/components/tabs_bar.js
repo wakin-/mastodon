@@ -30,6 +30,7 @@ export default class TabsBar extends React.PureComponent {
   static propTypes = {
     intl: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
+    ltl_visibility: PropTypes.bool.isRequired,
   }
 
   setRef = ref => {
@@ -69,11 +70,14 @@ export default class TabsBar extends React.PureComponent {
   }
 
   render () {
-    const { intl: { formatMessage } } = this.props;
+    const { intl: { formatMessage }, ltl_visibility } = this.props;
 
     return (
       <nav className='tabs-bar' ref={this.setRef}>
-        {links.map(link => React.cloneElement(link, { key: link.props.to, onClick: this.handleClick, 'aria-label': formatMessage({ id: link.props['data-preview-title-id'] }) }))}
+        {links.map(link => {
+          if (link.props['data-preview-title-id'] === 'column.community' && !ltl_visibility) { return true; }
+          return React.cloneElement(link, { key: link.props.to, onClick: this.handleClick, 'aria-label': formatMessage({ id: link.props['data-preview-title-id'] }) })
+        })}
       </nav>
     );
   }

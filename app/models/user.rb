@@ -219,6 +219,10 @@ class User < ApplicationRecord
     settings.notification_emails['digest']
   end
 
+  def ltl_visibility
+    staff? || !Setting.invisible_ltl
+  end
+
   def token_for_app(a)
     return nil if a.nil? || a.owner != self
     Doorkeeper::AccessToken

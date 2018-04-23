@@ -58,5 +58,8 @@
   .fields-group
     = f.input :peers_api_enabled, as: :boolean, wrapper: :with_label, label: t('admin.settings.peers_api_enabled.title'), hint: t('admin.settings.peers_api_enabled.desc_html')
 
+  .fields-group
+    = f.input :invisible_ltl, as: :boolean, wrapper: :with_label, label: t('admin.settings.invisible_ltl.title'), hint: t('admin.settings.invisible_ltl.desc_html')
+
   .actions
     = f.button :button, t('generic.save_changes'), type: :submit

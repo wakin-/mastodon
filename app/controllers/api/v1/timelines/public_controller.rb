@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::Timelines::PublicController < Api::BaseController
+  before_action :require_enabled_api!
   after_action :insert_pagination_headers, unless: -> { @statuses.empty? }
 
   respond_to :json
@@ -62,5 +63,9 @@ class Api::V1::Timelines::PublicController < Api::BaseController
 
   def pagination_since_id
     @statuses.first.id
+  end
+
+  def require_enabled_api!
+    head 404 if truthy_param?(:local) && !current_user&.staff? && Setting.invisible_ltl
   end
 end

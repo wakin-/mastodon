@@ -57,6 +57,7 @@ const mapStateToProps = state => ({
   isComposing: state.getIn(['compose', 'is_composing']),
   hasComposingText: state.getIn(['compose', 'text']) !== '',
   dropdownMenuIsOpen: state.getIn(['dropdown_menu', 'openId']) !== null,
+  ltl_visibility: state.getIn(['compose', 'ltl_visibility']),
 });
 
 const keyMap = {
@@ -186,6 +187,7 @@ export default class UI extends React.PureComponent {
     location: PropTypes.object,
     intl: PropTypes.object.isRequired,
     dropdownMenuIsOpen: PropTypes.bool,
+    ltl_visibility: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -407,7 +409,7 @@ export default class UI extends React.PureComponent {
 
   render () {
     const { draggingOver } = this.state;
-    const { children, isComposing, location, dropdownMenuIsOpen } = this.props;
+    const { children, isComposing, location, dropdownMenuIsOpen, ltl_visibility } = this.props;
 
     const handlers = {
       help: this.handleHotkeyToggleHelp,
@@ -431,7 +433,7 @@ export default class UI extends React.PureComponent {
     return (
       <HotKeys keyMap={keyMap} handlers={handlers} ref={this.setHotkeysRef}>
         <div className={classNames('ui', { 'is-composing': isComposing })} ref={this.setRef} style={{ pointerEvents: dropdownMenuIsOpen ? 'none' : null }}>
-          <TabsBar />
+          <TabsBar ltl_visibility={ltl_visibility} />
 
           <SwitchingColumnsArea location={location} onLayoutChange={this.handleLayoutChange}>
             {children}

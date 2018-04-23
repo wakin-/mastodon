@@ -276,6 +276,9 @@ en:
       hero:
         desc_html: Displayed on the frontpage. At least 600x100px recommended. When not set, falls back to instance thumbnail
         title: Hero image
+      invisible_ltl:
+        desc_html: Hide the local timeline for general users
+        title: Hide the local timeline
       peers_api_enabled:
         desc_html: Domain names this instance has encountered in the fediverse
         title: Publish list of discovered instances

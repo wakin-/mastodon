@@ -36,6 +36,8 @@ class Form::AdminSettings
     :peers_api_enabled=,
     :show_known_fediverse_at_about_page,
     :show_known_fediverse_at_about_page=,
+    :invisible_ltl,
+    :invisible_ltl=,
     to: Setting
   )
 end

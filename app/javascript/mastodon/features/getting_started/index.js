@@ -36,6 +36,7 @@ const mapStateToProps = state => ({
   columns: state.getIn(['settings', 'columns']),
   unreadFollowRequests: state.getIn(['user_lists', 'follow_requests', 'items'], ImmutableList()).size,
   unreadNotifications: state.getIn(['notifications', 'unread']),
+  ltl_visibility: state.getIn(['compose', 'ltl_visibility']),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -64,6 +65,7 @@ export default class GettingStarted extends ImmutablePureComponent {
     fetchFollowRequests: PropTypes.func.isRequired,
     unreadFollowRequests: PropTypes.number,
     unreadNotifications: PropTypes.number,
+    ltl_visibility: PropTypes.bool.isRequired,
   };
 
   componentDidMount () {
@@ -75,7 +77,7 @@ export default class GettingStarted extends ImmutablePureComponent {
   }
 
   render () {
-    const { intl, myAccount, columns, multiColumn, unreadFollowRequests, unreadNotifications } = this.props;
+    const { intl, myAccount, columns, multiColumn, unreadFollowRequests, unreadNotifications, ltl_visibility } = this.props;
 
     const navItems = [];
 
@@ -88,7 +90,7 @@ export default class GettingStarted extends ImmutablePureComponent {
         navItems.push(<ColumnLink key='1' icon='bell' text={intl.formatMessage(messages.notifications)} badge={badgeDisplay(unreadNotifications)} to='/notifications' />);
       }
 
-      if (!columns.find(item => item.get('id') === 'COMMUNITY')) {
+      if (!columns.find(item => item.get('id') === 'COMMUNITY') && ltl_visibility) {
         navItems.push(<ColumnLink key='2' icon='users' text={intl.formatMessage(messages.community_timeline)} to='/timelines/public/local' />);
       }
 

@@ -51,6 +51,7 @@ defaults: &defaults
   activity_api_enabled: true
   peers_api_enabled: true
   show_known_fediverse_at_about_page: true
+  invisible_ltl: false
 development:
   <<: *defaults
 

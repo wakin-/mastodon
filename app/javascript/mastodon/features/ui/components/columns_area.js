@@ -43,6 +43,7 @@ export default class ColumnsArea extends ImmutablePureComponent {
     isModalOpen: PropTypes.bool.isRequired,
     singleColumn: PropTypes.bool,
     children: PropTypes.node,
+    ltl_visibility: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -148,7 +149,7 @@ export default class ColumnsArea extends ImmutablePureComponent {
   }
 
   render () {
-    const { columns, children, singleColumn, isModalOpen } = this.props;
+    const { columns, children, singleColumn, isModalOpen, ltl_visibility } = this.props;
     const { shouldAnimate } = this.state;
 
     const columnIndex = getIndex(this.context.router.history.location.pathname);
@@ -174,6 +175,8 @@ export default class ColumnsArea extends ImmutablePureComponent {
       <div className={`columns-area ${ isModalOpen ? 'unscrollable' : '' }`} ref={this.setRef}>
         {columns.map(column => {
           const params = column.get('params', null) === null ? null : column.get('params').toJS();
+
+          if (column.get('id') === 'COMMUNITY' && !ltl_visibility) { return true; }
 
           return (
             <BundleContainer key={column.get('uuid')} fetchComponent={componentMap[column.get('id')]} loading={this.renderLoading(column.get('id'))} error={this.renderError}>
