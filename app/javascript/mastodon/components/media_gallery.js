@@ -196,10 +196,12 @@ class MediaGallery extends React.PureComponent {
     intl: PropTypes.object.isRequired,
     defaultWidth: PropTypes.number,
     cacheWidth: PropTypes.func,
+    quote: PropTypes.bool,
   };
 
   static defaultProps = {
     standalone: false,
+    quote: false,
   };
 
   state = {
@@ -237,7 +239,7 @@ class MediaGallery extends React.PureComponent {
   }
 
   render () {
-    const { media, intl, sensitive, height, defaultWidth } = this.props;
+    const { media, intl, sensitive, height, defaultWidth, quote } = this.props;
     const { visible } = this.state;
 
     const width = this.state.width || defaultWidth;
@@ -254,6 +256,10 @@ class MediaGallery extends React.PureComponent {
       style.height = width / (16/9);
     } else {
       style.height = height;
+    }
+
+    if (quote) {
+      style.height /= 2;
     }
 
     if (!visible) {
