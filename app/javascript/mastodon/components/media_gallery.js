@@ -246,10 +246,12 @@ class MediaGallery extends React.PureComponent {
     cacheWidth: PropTypes.func,
     visible: PropTypes.bool,
     onToggleVisibility: PropTypes.func,
+    quote: PropTypes.bool,
   };
 
   static defaultProps = {
     standalone: false,
+    quote: false,
   };
 
   state = {
@@ -294,7 +296,7 @@ class MediaGallery extends React.PureComponent {
   }
 
   render () {
-    const { media, intl, sensitive, height, defaultWidth } = this.props;
+    const { media, intl, sensitive, height, defaultWidth, quote } = this.props;
     const { visible } = this.state;
 
     const width = this.state.width || defaultWidth;
@@ -314,6 +316,10 @@ class MediaGallery extends React.PureComponent {
     }
 
     const size = media.take(4).size;
+
+    if (quote) {
+      style.height /= 2;
+    }
 
     if (this.isStandaloneEligible()) {
       children = <Item standalone onClick={this.handleClick} attachment={media.get(0)} displayWidth={width} visible={visible} />;
