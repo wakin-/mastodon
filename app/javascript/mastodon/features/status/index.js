@@ -30,6 +30,8 @@ import {
   deleteStatus,
   hideStatus,
   revealStatus,
+  hideQuote,
+  revealQuote,
 } from '../../actions/statuses';
 import { initMuteModal } from '../../actions/mutes';
 import { initReport } from '../../actions/reports';
@@ -248,6 +250,14 @@ class Status extends ImmutablePureComponent {
     }
   }
 
+  handleQuoteToggleHidden = (status) => {
+    if (status.get('quote_hidden')) {
+      this.props.dispatch(revealQuote(status.get('id')));
+    } else {
+      this.props.dispatch(hideQuote(status.get('id')));
+    }
+  }
+
   handleToggleAll = () => {
     const { status, ancestorsIds, descendantsIds } = this.props;
     const statusIds = [status.get('id')].concat(ancestorsIds.toJS(), descendantsIds.toJS());
@@ -454,6 +464,7 @@ class Status extends ImmutablePureComponent {
                   onOpenMedia={this.handleOpenMedia}
                   onToggleHidden={this.handleToggleHidden}
                   domain={domain}
+                  onQuoteToggleHidden={this.handleQuoteToggleHidden}
                 />
 
                 <ActionBar
