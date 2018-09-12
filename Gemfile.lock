@@ -683,6 +683,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.6)
   fabrication (~> 2.20)
   faker (~> 1.9)
+  faraday
   fast_blank (~> 1.0)
   fastimage
   fog-core (<= 2.1.0)
