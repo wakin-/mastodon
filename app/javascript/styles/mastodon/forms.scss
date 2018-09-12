@@ -455,6 +455,10 @@ code {
       }
     }
   }
+
+  &.new_user button[type=submit] {
+    font-size: 17px;
+  }
 }
 
 .flash-message {
