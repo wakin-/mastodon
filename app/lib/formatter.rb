@@ -195,7 +195,7 @@ class Formatter
     url = TagManager.instance.url_for(status.quote)
     link = encode_and_link_urls(url)
     #html.sub(/(<[^>]+>)\z/, "<span class=\"quote-inline\"><br/>QT: #{quote_content} [#{link}]</span>\\1")
-    html.sub(/(<[^>]+>)\z/, "<span class=\"quote-inline\"><br/>QT: [#{link}]</span>\\1")
+    html.sub(/(<[^>]+>)\z/, "<span class=\"quote-inline\"><br/>QT: #{link}</span>\\1")
   end
 
   def rewrite(text, entities)
