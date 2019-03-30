@@ -25,6 +25,7 @@ const mapStateToProps = state => ({
   isUploading: state.getIn(['compose', 'is_uploading']),
   showSearch: state.getIn(['search', 'submitted']) && !state.getIn(['search', 'hidden']),
   anyMedia: state.getIn(['compose', 'media_attachments']).size > 0,
+  tagTemplate : state.getIn(['compose', 'tagTemplate']),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -60,7 +61,6 @@ const mapDispatchToProps = (dispatch) => ({
   onPickEmoji (position, data, needsSpace) {
     dispatch(insertEmojiCompose(position, data, needsSpace));
   },
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ComposeForm);
