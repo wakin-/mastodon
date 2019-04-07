@@ -2,6 +2,7 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import ImmutablePureComponent from 'react-immutable-pure-component';
+import IconButton from '../../mastodon/components/icon_button';
 
 const getHashtagWord = (value) => {
   if (!value) {
@@ -12,11 +13,17 @@ const getHashtagWord = (value) => {
   return (trimmed[0] === '#') ? trimmed.slice(1) : trimmed;
 };
 
+const iconStyle = {
+  height: null,
+  lineHeight: '27px',
+};
+
 export default class HashtagTemp extends ImmutablePureComponent {
 
   static propTypes = {
     disabled: PropTypes.bool,
     value: PropTypes.string,
+    active: PropTypes.bool,
     placeholder: PropTypes.string,
     onSuggestionsClearRequested: PropTypes.func.isRequired,
     onSuggestionsFetchRequested: PropTypes.func.isRequired,
@@ -24,6 +31,7 @@ export default class HashtagTemp extends ImmutablePureComponent {
     onKeyDown: PropTypes.func,
     suggestions: ImmutablePropTypes.list,
     onChangeTagTemplate: PropTypes.func,
+    index: PropTypes.number
   };
 
   state = {
@@ -35,10 +43,10 @@ export default class HashtagTemp extends ImmutablePureComponent {
   onChange = (e) => {
     const { value } = e.target;
     const hashtag = getHashtagWord(value);
-    this.props.onChangeTagTemplate(hashtag);
+    this.props.onChangeTagTemplate(hashtag, this.props.index);
     if (hashtag) {
       this.setState({ value, lastToken: hashtag });
-      this.props.onSuggestionsFetchRequested(hashtag);
+      this.props.onSuggestionsFetchRequested(hashtag, this.props.index);
     } else {
       this.setState({ value, lastToken: null });
       this.props.onSuggestionsClearRequested();
@@ -107,7 +115,7 @@ export default class HashtagTemp extends ImmutablePureComponent {
 
   insertHashtag = (value) => {
     const hashtag = getHashtagWord(value);
-    this.props.onChangeTagTemplate(hashtag);
+    this.props.onChangeTagTemplate(hashtag, this.props.index);
     if (hashtag) {
       this.props.onSuggestionsClearRequested();
       this.setState({
@@ -151,12 +159,12 @@ export default class HashtagTemp extends ImmutablePureComponent {
   }
 
   render () {
-    const { value, suggestions, disabled, placeholder, onKeyUp } = this.props;
+    const { value, active, suggestions, disabled, placeholder, onKeyUp } = this.props;
     const { suggestionsHidden } = this.state;
 
     return (
       <div className='hashtag-temp'>
-        <i className='fa fa-fw fa-hashtag' />
+        <IconButton icon='hashtag' title={''} disabled={disabled} onClick={this.handleClick} className='hashtag-temp__button-icon' active={active} size={12} inverted style={iconStyle} />
         <input
           className='hastag-temp__input'
           disabled={disabled}

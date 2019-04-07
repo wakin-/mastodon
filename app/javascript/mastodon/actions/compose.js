@@ -8,6 +8,7 @@ import resizeImage from '../utils/resize_image';
 import { importFetchedAccounts } from './importer';
 import { updateTimeline } from './timelines';
 import { showAlertForError } from './alerts';
+import { fromJS } from 'immutable';
 
 let cancelFetchComposeSuggestionsAccounts;
 
@@ -118,11 +119,13 @@ export function submitCompose(routerHistory) {
       return;
     }
 
-    const hashtag = getState().getIn(['compose', 'tagTemplate'], '');
+    const hashtag = getState().getIn(['compose', 'tagTemplate']);
 
-    if (hashtag && hashtag.length) {
-      status = [status, ` #${hashtag}`].join('');
-    }
+    hashtag.map(tag => {
+      if (tag && tag.get('active') && tag.get('text').length) {
+        status = [status, ` #${tag.get('text')}`].join('')
+      }
+    });
 
     dispatch(submitComposeRequest());
 
@@ -394,15 +397,19 @@ export function updateTagHistory(tags) {
   };
 }
 
-export function updateTagTemplate(tag) {
+export function updateTagTemplate(tag, index) {
   return (dispatch, getState) => {
+    const oldTemplate = getState().getIn(['compose', 'tagTemplate']);
+    const me = getState().getIn(['meta', 'me']);
+    const active = oldTemplate.getIn([index, 'active']) || true;
+    const tags = oldTemplate.setIn([index], fromJS({text: tag, active: active}));
+
     dispatch({
       type: COMPOSE_TAG_TEMPLATE_UPDATE,
-      tag,
+      tags,
     });
 
-    const me = getState().getIn(['meta', 'me']);
-    tagTemplate.set(me, tag);
+    tagTemplate.set(me, tags);
   };
 }
 

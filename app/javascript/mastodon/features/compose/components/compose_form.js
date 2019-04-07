@@ -61,7 +61,7 @@ class ComposeForm extends ImmutablePureComponent {
     onPickEmoji: PropTypes.func.isRequired,
     showSearch: PropTypes.bool,
     anyMedia: PropTypes.bool,
-    tagTemplate: PropTypes.string,
+    tagTemplate: ImmutablePropTypes.list,
     onChangeTagTemplate: PropTypes.func.isRequired,
   };
 
@@ -114,8 +114,8 @@ class ComposeForm extends ImmutablePureComponent {
     this.setState({ tagSuggestionFrom: null });
   }
 
-  onHashTagSuggestionsFetchRequested = (token) => {
-    this.setState({ tagSuggestionFrom: 'hashtag-temp' });
+  onHashTagSuggestionsFetchRequested = (token, index) => {
+    this.setState({ tagSuggestionFrom: 'hashtag-temp-'+index.toString() });
     this.props.onFetchSuggestions(`#${token}`);
   }
 
@@ -176,8 +176,9 @@ class ComposeForm extends ImmutablePureComponent {
     const { intl, onPaste, showSearch, anyMedia, tagTemplate } = this.props;
     const { tagSuggestionFrom } = this.state;
     const disabled = this.props.is_submitting;
-    const preTagTemplate = tagTemplate && tagTemplate.length > 0 ? ' #' : '';
-    const text     = [this.props.spoiler_text, countableText(this.props.text), preTagTemplate+tagTemplate].join('');
+    const activeTagTemplate = tagTemplate.filter(tag => tag && tag.get('active'));
+    const preTagTemplate = activeTagTemplate.map(tag => tag.get('text').length > 0 ? ' #' : '');
+    const text     = [this.props.spoiler_text, countableText(this.props.text), preTagTemplate.join(''), activeTagTemplate.join('')].join('');
     const disabledButton = disabled || this.props.is_uploading || this.props.is_changing_upload || length(text) > 500 || (text.length !== 0 && text.trim().length === 0 && !anyMedia);
     let publishText = '';
 
@@ -224,11 +225,35 @@ class ComposeForm extends ImmutablePureComponent {
           <HashtagTemp
             placeholder={intl.formatMessage(messages.hashtag_temp_placeholder)}
             disabled={disabled}
-            value={tagTemplate ? tagTemplate : ''}
-            suggestions={tagSuggestionFrom === 'hashtag-temp' ? this.props.suggestions : Immutable.List()}
+            value={tagTemplate.getIn([0, 'text']) || ''}
+            active={tagTemplate.getIn([0, 'active'])}
+            suggestions={tagSuggestionFrom === 'hashtag-temp-0' ? this.props.suggestions : Immutable.List()}
             onSuggestionsFetchRequested={this.onHashTagSuggestionsFetchRequested}
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             onChangeTagTemplate={this.props.onChangeTagTemplate}
+            index={0}
+          />
+          <HashtagTemp
+            placeholder={intl.formatMessage(messages.hashtag_temp_placeholder)}
+            disabled={disabled}
+            value={tagTemplate.getIn([1, 'text']) || ''}
+            active={tagTemplate.getIn([1, 'active'])}
+            suggestions={tagSuggestionFrom === 'hashtag-temp-1' ? this.props.suggestions : Immutable.List()}
+            onSuggestionsFetchRequested={this.onHashTagSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            onChangeTagTemplate={this.props.onChangeTagTemplate}
+            index={1}
+          />
+          <HashtagTemp
+            placeholder={intl.formatMessage(messages.hashtag_temp_placeholder)}
+            disabled={disabled}
+            value={tagTemplate.getIn([2, 'text']) || ''}
+            active={tagTemplate.getIn([2, 'active'])}
+            suggestions={tagSuggestionFrom === 'hashtag-temp-2' ? this.props.suggestions : Immutable.List()}
+            onSuggestionsFetchRequested={this.onHashTagSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            onChangeTagTemplate={this.props.onChangeTagTemplate}
+            index={2}
           />
 	      </div>
 
