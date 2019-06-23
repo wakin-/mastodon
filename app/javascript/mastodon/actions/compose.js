@@ -97,16 +97,14 @@ export function cancelReplyCompose() {
   };
 };
 
-export function quoteCompose(status, router) {
+export function quoteCompose(status, routerHistory) {
   return (dispatch, getState) => {
     dispatch({
       type: COMPOSE_QUOTE,
       status: status,
     });
 
-    if (!getState().getIn(['compose', 'mounted'])) {
-      router.push('/statuses/new');
-    }
+    ensureComposeIsVisible(getState, routerHistory);
   };
 };
 
