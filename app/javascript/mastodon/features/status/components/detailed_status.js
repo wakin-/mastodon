@@ -34,7 +34,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
     onToggleMediaVisibility: PropTypes.func,
     onQuoteToggleHidden: PropTypes.func.isRequired,
     showQuoteMedia: PropTypes.bool,
-    onToggleQuoteMediaVisibility: PropTypes.func
+    onToggleQuoteMediaVisibility: PropTypes.func,
   };
 
   state = {
@@ -132,7 +132,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
 
         if (quote_status.getIn(['media_attachments', 0, 'type']) === 'audio') {
           const attachment = quote_status.getIn(['media_attachments', 0]);
-  
+
           quote_media = (
             <Audio
               src={attachment.get('url')}
@@ -144,7 +144,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
           );
         } else if (quote_status.getIn(['media_attachments', 0, 'type']) === 'video') {
           const attachment = quote_status.getIn(['media_attachments', 0]);
-  
+
           quote_media = (
             <Video
               preview={attachment.get('preview_url')}
@@ -158,8 +158,8 @@ export default class DetailedStatus extends ImmutablePureComponent {
               sensitive={quote_status.get('sensitive')}
               visible={this.props.showQuoteMedia}
               onToggleVisibility={this.props.onToggleQuoteMediaVisibility}
-              quote={true}
-              />
+              quote
+            />
           );
         } else {
           quote_media = (
@@ -171,8 +171,8 @@ export default class DetailedStatus extends ImmutablePureComponent {
               onOpenMedia={this.props.onOpenMedia}
               visible={this.props.showQuoteMedia}
               onToggleVisibility={this.props.onToggleQuoteMediaVisibility}
-              quote={true}
-              />
+              quote
+            />
           );
         }
       }
@@ -188,7 +188,7 @@ export default class DetailedStatus extends ImmutablePureComponent {
             <div className='status__avatar'><Avatar account={quote_status.get('account')} size={18} /></div>
             <DisplayName account={quote_status.get('account')} />
           </div>
-          <StatusContent status={quote_status} onClick={this.handleQuoteClick} expanded={!status.get('quote_hidden')} onExpandedToggle={this.handleExpandedQuoteToggle} quote={true} />
+          <StatusContent status={quote_status} onClick={this.handleQuoteClick} expanded={!status.get('quote_hidden')} onExpandedToggle={this.handleExpandedQuoteToggle} quote />
           {quote_media}
         </div>
       );

@@ -108,6 +108,7 @@ class Video extends React.PureComponent {
     intl: PropTypes.object.isRequired,
     blurhash: PropTypes.string,
     link: PropTypes.node,
+    quote: PropTypes.bool,
   };
 
   state = {
@@ -394,7 +395,7 @@ class Video extends React.PureComponent {
     }
 
     if (quote && height) {
-      height /= 2
+      height /= 2;
       playerStyle.height = height;
     }
 

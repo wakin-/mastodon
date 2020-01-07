@@ -23,7 +23,7 @@ export default class StatusContent extends React.PureComponent {
     onExpandedToggle: PropTypes.func,
     onClick: PropTypes.func,
     collapsable: PropTypes.bool,
-    quote: PropTypes.bool
+    quote: PropTypes.bool,
   };
 
   state = {

@@ -13,8 +13,8 @@ const messages = defineMessages({
   cancel: { id: 'quote_indicator.cancel', defaultMessage: 'Cancel' },
 });
 
-@injectIntl
-export default class QuoteIndicator extends ImmutablePureComponent {
+export default @injectIntl
+class QuoteIndicator extends ImmutablePureComponent {
 
   static contextTypes = {
     router: PropTypes.object,
