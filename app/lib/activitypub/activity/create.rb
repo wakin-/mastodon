@@ -453,6 +453,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
 
   def quote_from_url(url)
     return nil if url.nil?
+
     quote = ResolveURLService.new.call(url)
     status_from_uri(quote.uri) if quote
   end

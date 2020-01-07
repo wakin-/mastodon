@@ -471,7 +471,7 @@ class Status extends ImmutablePureComponent {
           );
         } else if (quote_status.getIn(['media_attachments', 0, 'type']) === 'audio') {
           const attachment = quote_status.getIn(['media_attachments', 0]);
-  
+
           quote_media = (
             <Bundle fetchComponent={Audio} loading={this.renderLoadingAudioPlayer} >
               {Component => (
@@ -481,14 +481,14 @@ class Status extends ImmutablePureComponent {
                   duration={attachment.getIn(['meta', 'original', 'duration'], 0)}
                   peaks={[0]}
                   height={70}
-                  quote={true}
+                  quote
                 />
               )}
             </Bundle>
           );
         } else if (quote_status.getIn(['media_attachments', 0, 'type']) === 'video') {
           const attachment = quote_status.getIn(['media_attachments', 0]);
-  
+
           quote_media = (
             <Bundle fetchComponent={Video} loading={this.renderLoadingVideoPlayer} >
               {Component => (
@@ -505,7 +505,7 @@ class Status extends ImmutablePureComponent {
                   cacheWidth={this.props.cacheMediaWidth}
                   visible={this.state.showQuoteMedia}
                   onToggleVisibility={this.handleToggleQuoteMediaVisibility}
-                  quote={true}
+                  quote
                 />
               )}
             </Bundle>
@@ -523,11 +523,11 @@ class Status extends ImmutablePureComponent {
                   defaultWidth={this.props.cachedMediaWidth}
                   visible={this.state.showQuoteMedia}
                   onToggleVisibility={this.handleToggleQuoteMediaVisibility}
-                  quote={true}
+                  quote
                 />
               )}
             </Bundle>
-            );
+          );
         }
       }
 
@@ -535,21 +535,21 @@ class Status extends ImmutablePureComponent {
         unlistedQuoteText = intl.formatMessage({ id: 'status.unlisted_quote', defaultMessage: 'Unlisted quote' });
         quote = (
           <div className={classNames('quote-status', `status-${quote_status.get('visibility')}`, { muted: this.props.muted })} data-id={quote_status.get('id')}>
-            <div className={classNames('status__content unlisted-quote', {'status__content--with-action': this.context.router})}>
-              <strong onClick={this.handleQuoteClick}>{unlistedQuoteText}</strong>
-      	    </div>
-	        </div>
-	      );
+            <div className={classNames('status__content unlisted-quote', { 'status__content--with-action': this.context.router })}>
+              <button onClick={this.handleQuoteClick}>{unlistedQuoteText}</button>
+            </div>
+          </div>
+        );
       } else {
         quote = (
           <div className={classNames('quote-status', `status-${quote_status.get('visibility')}`, { muted: this.props.muted })} data-id={quote_status.get('id')}>
-      	    <div className='status__info'>
+            <div className='status__info'>
               <a onClick={this.handleAccountClick} target='_blank' data-id={quote_status.getIn(['account', 'id'])} href={quote_status.getIn(['account', 'url'])} title={quote_status.getIn(['account', 'acct'])} className='status__display-name'>
                 <div className='status__avatar'><Avatar account={quote_status.get('account')} size={18} /></div>
                 <DisplayName account={quote_status.get('account')} />
               </a>
             </div>
-            <StatusContent status={quote_status} onClick={this.handleQuoteClick} expanded={!status.get('quote_hidden')} onExpandedToggle={this.handleExpandedQuoteToggle} quote={true} />
+            <StatusContent status={quote_status} onClick={this.handleQuoteClick} expanded={!status.get('quote_hidden')} onExpandedToggle={this.handleExpandedQuoteToggle} quote />
             {quote_media}
           </div>
         );

@@ -258,14 +258,14 @@ function main() {
     }
   });
 
-  delegate(document, '.quote-status', 'click', ({target}) => {
+  delegate(document, '.quote-status', 'click', ({ target }) => {
     if (target.closest('.status__content__spoiler-link') ||
       target.closest('.media-gallery') ||
       target.closest('.video-player') ||
       target.closest('.audio-player')) {
-        return false;
-      }
-    
+      return false;
+    }
+
     let url = target.closest('.quote-status').getAttribute('dataurl');
     if (target.closest('.status__display-name')) {
       url = target.closest('.status__display-name').getAttribute('href');

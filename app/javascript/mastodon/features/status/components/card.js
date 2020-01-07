@@ -67,6 +67,7 @@ export default class Card extends React.PureComponent {
     compact: PropTypes.bool,
     defaultWidth: PropTypes.number,
     cacheWidth: PropTypes.func,
+    quote: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -102,7 +103,7 @@ export default class Card extends React.PureComponent {
           },
         },
       ]),
-      0
+      0,
     );
   };
 
